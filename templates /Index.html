@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MotoStock Balcão Pro</title>
+    <link rel="stylesheet" href="{{ url_for('DEVNUEVO', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">
+        <div class="brand-icon">🏍</div>
+        <div>
+            <h1>MotoStock <span>BALCÃO PRO</span></h1>
+            <p>Controle de Estoque &amp; Faturamento</p>
+        </div>
+    </div>
+    <div class="top-stats">
+        <div class="stats">
+            <div><small>Itens:</small><b>3</b></div>
+            <div><small>Baixos:</small><b class="amber">1</b></div>
+            <div><small>Faturamento:</small><b class="green">R$ 165,90</b></div>
+        </div>
+        <button class="admin-btn" onclick="toggleAdmin()">🛡 Login Admin</button>
+    </div>
+</header>
+
+<nav class="nav">
+    <button class="nav-btn active" data-tab="search">⌕ Pesquisa de Peças</button>
+    <button class="nav-btn" data-tab="pos">🛒 Ferramenta de Balcão (POS)</button>
+    <button class="nav-btn" data-tab="inventory">▣ Estoque &amp; Entradas</button>
+    <button class="nav-btn" data-tab="customers">♙ Clientes &amp; Garagem</button>
+    <button class="nav-btn" data-tab="sales">▥ Vendas &amp; PDF</button>
+</nav>
+
+<main>
+<section id="search" class="tab active-tab">
+    <div class="panel heading-panel">
+        <div>
+            <h2>Pesquisa Rápida de Peças no Balcão</h2>
+            <p>Busque por nome, código SKU ou moto compatível.</p>
+        </div>
+        <button class="orange-btn">＋ Nova Peça</button>
+    </div>
+
+    <div class="search-row">
+        <input id="searchInput" oninput="filterParts()" placeholder="Pesquisar peça...">
+    </div>
+
+    <div id="partsGrid" class="cards"></div>
+</section>
+
+<section id="pos" class="tab">
+    <div class="pos-grid">
+        <div class="panel">
+            <h3>Catálogo Rápido Balcão</h3>
+            <div id="catalog" class="catalog"></div>
+        </div>
+        <div class="panel cart-panel">
+            <div>
+                <h3>Carrinho de Balcão</h3>
+                <select id="customer">
+                    <option>Cliente Balcão / Avulso</option>
+                    <option>Carlos Eduardo Silva (Honda CG 160)</option>
+                </select>
+                <div id="cart" class="cart"></div>
+            </div>
+            <div class="totals">
+                <div><span>Subtotal:</span><b id="subtotal">R$ 0,00</b></div>
+                <div><span>Desconto:</span><input id="discount" type="number" value="0" oninput="renderCart()"></div>
+                <div class="total"><span>Total:</span><b id="total">R$ 0,00</b></div>
+                <div class="payments">
+                    <button class="payment active">Pix</button>
+                    <button class="payment">Dinheiro</button>
+                    <button class="payment">Cartão Débito</button>
+                    <button class="payment">Cartão Crédito</button>
+                </div>
+                <button class="finish">FINALIZAR VENDA &amp; CUPOM</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="inventory" class="tab">
+    <div class="panel heading-panel">
+        <div><h2>Controle de Estoque &amp; Entradas</h2><p>Registre notas fiscais e entradas de peças.</p></div>
+    </div>
+    <div class="panel table-wrap">
+        <table>
+            <thead><tr><th>SKU / Peça</th><th>Estoque</th><th>Preço Venda</th><th>Ação</th></tr></thead>
+            <tbody id="inventoryTable"></tbody>
+        </table>
+    </div>
+</section>
+
+<section id="customers" class="tab">
+    <div class="panel heading-panel">
+        <div><h2>Cadastro de Clientes &amp; Garagem</h2><p>Gerencie clientes e placas de motos.</p></div>
+        <button class="orange-btn">＋ Novo Cliente</button>
+    </div>
+    <div class="cards">
+        <div class="card customer-card"><span class="plate">ABC-1234</span><h3>Carlos Eduardo Silva</h3><p>Moto: Honda CG 160</p><p>Tel: (11) 98765-4321</p></div>
+    </div>
+</section>
+
+<section id="sales" class="tab">
+    <div class="panel heading-panel">
+        <div><h2>Histórico de Vendas &amp; Relatório PDF</h2><p>Exporte o relatório completo de vendas para impressão ou PDF.</p></div>
+        <button class="orange-btn" onclick="window.print()">⇩ Exportar PDF / Imprimir</button>
+    </div>
+    <div class="panel table-wrap">
+        <table>
+            <thead><tr><th>ID / Data</th><th>Cliente</th><th>Pagamento</th><th>Total</th></tr></thead>
+            <tbody><tr><td><b class="orange-text">#s101</b> - 2026-06-14 14:32</td><td>Carlos Eduardo Silva</td><td class="cyan">Pix</td><td class="green">R$ 165,90</td></tr></tbody>
+        </table>
+    </div>
+</section>
+</main>
+
+<div id="adminModal" class="modal">
+    <div class="modal-box">
+        <button class="close" onclick="toggleAdmin()">×</button>
+        <h3>Acesso Admin</h3>
+        <p>Use: admin / moto123</p>
+        <input id="user" placeholder="Usuário">
+        <input id="pass" type="password" placeholder="Senha">
+        <button class="orange-btn full" onclick="login()">Entrar</button>
+        <div id="loginMsg"></div>
+    </div>
+</div>
+
+<script src="{{ url_for('DEVNUEVO', filename='app.js') }}"></script>
+</body>
+</html>
