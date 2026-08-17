@@ -1,4 +1,10 @@
 from flask import Flask, render_template
+import os
+
+print("DIRETÓRIO:", os.getcwd())
+print("ARQUIVOS:", os.listdir("."))
+print("TEMPLATES EXISTE:", os.path.exists("templates"))
+print("INDEX EXISTE:", os.path.exists("templates/index.html"))
 
 app = Flask(__name__)
 
